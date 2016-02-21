@@ -1,1 +1,3 @@
-require 'metrics/stream/divergence/divergence'
+require 'event_store/client/http'
+
+require 'metrics/stream/divergence/measure'
