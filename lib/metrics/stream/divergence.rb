@@ -1,1 +1,1 @@
-require 'metrics/stream/divergence'
+require 'metrics/stream/divergence/divergence'
