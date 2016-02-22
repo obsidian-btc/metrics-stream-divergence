@@ -38,7 +38,7 @@ module Metrics
 
           stream_names.each do |stream_name|
             time = get_tail_time(stream_name)
-            data.add(stream_name, time)
+            data.add(stream_name, time) unless time.nil?
           end
 
           logger.debug "Stream divergence calculated (Stream Names: #{LogText.stream_names(stream_names)})"
@@ -56,7 +56,11 @@ module Metrics
           end
 
           event = events[0]
-          return nil if event.nil?
+
+          if event.nil?
+            logger.debug "No events for stream (Stream Name: #{stream_name})"
+            return nil
+          end
 
           event.created_time
         end
@@ -109,6 +113,10 @@ module Metrics
 
           def milliseconds
             (max.time - min.time) * 1000
+          end
+
+          def able?
+            points.length >= 2
           end
 
           Point = Struct.new(:stream_name, :time)
