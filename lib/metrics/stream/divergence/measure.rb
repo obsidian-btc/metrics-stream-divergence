@@ -12,14 +12,17 @@ module Metrics
           @stream_names = stream_names
         end
 
-        def self.build(*stream_names)
+        def self.build(stream_name_1, stream_name_2, *stream_names)
+          stream_names.unshift(stream_name_2)
+          stream_names.unshift(stream_name_1)
+
           new(*stream_names).tap do |instance|
             Telemetry::Logger.configure instance
           end
         end
 
-        def self.call(*stream_names)
-          instance = self.build(*stream_names)
+        def self.call(stream_name_1, stream_name_2, *stream_names)
+          instance = self.build(stream_name_1, stream_name_2, *stream_names)
           instance.()
         end
 
