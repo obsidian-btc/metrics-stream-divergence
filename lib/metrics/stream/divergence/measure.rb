@@ -72,11 +72,13 @@ module Metrics
         end
 
         class Data
+          dependency :logger
           dependency :clock
 
           def self.build
             new.tap do |instance|
               Clock::UTC.configure instance
+              Telemetry::Logger.configure instance
             end
           end
 
@@ -115,7 +117,9 @@ module Metrics
 
           def elapsed_milliseconds
             unless able?
-              raise Error, "Cannot calculate elapsed milliseconds with #{points.length} data points (2 or more are required)"
+              error_message = "Cannot calculate elapsed milliseconds with #{points.length} data points (2 or more are required)"
+              logger.error error_message
+              raise Error, error_message
             end
 
             (max.time - min.time) * 1000
