@@ -48,10 +48,20 @@ module Metrics
         end
 
         def get_tail_time(stream_name)
-          Time.now
+          reader = build_reader(stream_name)
+
+          events = []
+          reader.each do |event|
+            events << event
+          end
+
+          event = events[0]
+          return nil if event.nil?
+
+          event.created_time
         end
 
-        def reader(stream_name)
+        def build_reader(stream_name)
           EventStore::Client::HTTP::Reader.build stream_name, slice_size: 1, direction: :backward
         end
 
