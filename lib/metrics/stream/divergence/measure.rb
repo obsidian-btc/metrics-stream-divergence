@@ -2,6 +2,8 @@ module Metrics
   module Stream
     module Divergence
       class Measure
+        class Error < RuntimeError; end
+
         attr_reader :stream_names
 
         dependency :logger
@@ -111,7 +113,11 @@ module Metrics
             point
           end
 
-          def milliseconds
+          def elapsed_milliseconds
+            unless able?
+              raise Error, "Cannot calculate elapsed milliseconds with #{points.length} data points (2 or more are required)"
+            end
+
             (max.time - min.time) * 1000
           end
 

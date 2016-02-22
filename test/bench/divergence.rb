@@ -8,7 +8,7 @@ context "Stream Divergence" do
   divergence = Measure.(stream_name_1, stream_name_2, stream_name_3)
 
   test "The difference between timestamps of the last events of each stream" do
-    assert(divergence.milliseconds > 0)
+    assert(divergence.elapsed_milliseconds > 0)
   end
 
   context "Index by time" do
