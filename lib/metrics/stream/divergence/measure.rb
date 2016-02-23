@@ -122,6 +122,7 @@ module Metrics
             unless able?
               error_message = "Cannot calculate elapsed milliseconds with #{points.length} data points (2 or more are required)"
               logger.error error_message
+
               raise Error, error_message
             end
 

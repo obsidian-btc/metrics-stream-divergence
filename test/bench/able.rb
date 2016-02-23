@@ -9,8 +9,10 @@ context "Divergence Data isn't Able" do
 
   context "Calculating elapsed milliseconds" do
     test "Is an error" do
-      error? Measure::Error do
-        divergence.elapsed_milliseconds
+      assert divergence do
+        error? Measure::Error do
+          elapsed_milliseconds
+        end
       end
     end
   end

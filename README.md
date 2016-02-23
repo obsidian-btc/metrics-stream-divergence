@@ -4,7 +4,7 @@ Calculates the difference in milliseconds between the timestamps of the most rec
 
 ## Rationale
 
-The difference in time between two streams can be used to detect whether a service is processing commands at a reasonable rate.
+The difference in time between two streams can be used to detect whether a service is processing commands at an expected rate.
 
 For example, the difference in time between a services inbound commands and the events that are emitted as a result of those commands can indicate the service's processing latency. If that latency exceeds a given value, an alert should be sent to whatever alert deliver system is in-use.
 
