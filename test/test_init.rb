@@ -16,6 +16,5 @@ require_relative '../init.rb'
 require 'metrics/stream/divergence/controls'
 
 require 'test_bench'; TestBench.activate
-include TestBench::Assert::Error
 
 Telemetry::Logger::AdHoc.activate
