@@ -39,6 +39,8 @@ module Metrics
             time = clock.parse(time) if time.is_a?(String)
             time = clock.canonize(time)
 
+            time = clock.iso8601(time)
+
             point = Point.new(stream_name, time)
 
             points << point
@@ -54,7 +56,7 @@ module Metrics
               raise Error, error_message
             end
 
-            (max.time - min.time) * 1000
+            clock.elapsed_milliseconds(min.time, max.time)
           end
 
           def able?
@@ -62,6 +64,29 @@ module Metrics
           end
 
           Point = Struct.new(:stream_name, :time)
+
+          module Serializer
+            def self.json
+              JSON
+            end
+
+            def self.raw_data(instance)
+              raw_data = []
+
+              instance.points.each do |point|
+                raw_data << point.to_h
+              end
+
+              raw_data
+            end
+
+            module JSON
+              def self.serialize(raw_data)
+                formatted_data = Casing::Camel.(raw_data)
+                ::JSON.generate(formatted_data)
+              end
+            end
+          end
         end
 
         module LogText
