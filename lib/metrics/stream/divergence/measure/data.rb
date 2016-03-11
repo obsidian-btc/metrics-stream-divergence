@@ -39,8 +39,6 @@ module Metrics
             time = clock.parse(time) if time.is_a?(String)
             time = clock.canonize(time)
 
-            time = clock.iso8601(time)
-
             point = Point.new(stream_name, time)
 
             points << point
@@ -74,7 +72,10 @@ module Metrics
               raw_data = []
 
               instance.points.each do |point|
-                raw_data << point.to_h
+                point_data = {}
+                point_data[:stream_name] = point.stream_name
+                point_data[:time] = Clock::UTC.iso8601(point.time)
+                raw_data << point_data
               end
 
               raw_data
