@@ -11,6 +11,16 @@ context "Stream Divergence" do
     assert(divergence.elapsed_milliseconds > 0)
   end
 
+  context "Measurement times are recorded" do
+    test "Started time" do
+      assert(!divergence.started_time.nil?)
+    end
+
+    test "Ended time" do
+      assert(!divergence.ended_time.nil?)
+    end
+  end
+
   context "Index by time" do
     test "First stream is the earliest" do
       assert(divergence.index(stream_name_1) == 0)
