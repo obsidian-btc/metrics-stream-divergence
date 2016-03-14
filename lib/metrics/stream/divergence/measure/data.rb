@@ -16,20 +16,20 @@ module Metrics
             end
           end
 
-          def points
-            @points ||= []
+          def streams
+            @streams ||= []
           end
 
           def min
-            points.min { |a, b| a.time <=> b.time }
+            streams.min { |a, b| a.time <=> b.time }
           end
 
           def max
-            points.max { |a, b| a.time <=> b.time }
+            streams.max { |a, b| a.time <=> b.time }
           end
 
           def sort
-            points.sort do |a, b|
+            streams.sort do |a, b|
               a.time <=> b.time
             end
           end
@@ -44,14 +44,14 @@ module Metrics
 
             point = Point.new(stream_name, time)
 
-            points << point
+            streams << point
 
             point
           end
 
           def elapsed_milliseconds
             unless able?
-              error_message = "Cannot calculate elapsed milliseconds with #{points.length} data points (2 or more are required)"
+              error_message = "Cannot calculate elapsed milliseconds with #{streams.length} data streams (2 or more are required)"
               logger.error error_message
 
               raise Error, error_message
@@ -61,7 +61,7 @@ module Metrics
           end
 
           def able?
-            points.length >= 2
+            streams.length >= 2
           end
 
           Point = Struct.new(:stream_name, :time)
@@ -79,16 +79,16 @@ module Metrics
               raw_data[:started_time] = instance.started_time
               raw_data[:ended_time] = instance.ended_time
 
-              points = []
+              streams = []
 
-              instance.points.each do |point|
+              instance.streams.each do |point|
                 point_data = {}
                 point_data[:stream_name] = point.stream_name
                 point_data[:time] = Clock::UTC.iso8601(point.time)
-                points << point_data
+                streams << point_data
               end
 
-              raw_data[:points] = points
+              raw_data[:streams] = streams
 
               raw_data
             end

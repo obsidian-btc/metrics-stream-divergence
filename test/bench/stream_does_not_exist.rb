@@ -7,6 +7,6 @@ context "Stream that Doesn't Exist" do
   divergence = Measure.(stream_name_1, stream_name_2)
 
   test "Isn't included in the measurement data" do
-    assert(divergence.points.length == 0)
+    assert(divergence.streams.length == 0)
   end
 end

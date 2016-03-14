@@ -25,10 +25,10 @@ module Metrics
               later = Controls::Time.later
 
               {
-                'elapsedMilliseconds' => Clock.elapsedMilliseconds(earlier, later),
+                'elapsedMilliseconds' => Clock.elapsed_milliseconds(earlier, later),
                 'startedTime' => Controls::Time.earlier,
                 'endedTime' => Controls::Time.later,
-                'points' => [
+                'streams' => [
                   {
                     'streamName' => 'stream_1',
                     'time' => Controls::Time.earlier
