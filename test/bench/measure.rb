@@ -1,6 +1,6 @@
 require_relative './bench_init'
 
-context "Stream Divergence" do
+context "Measure stream Divergence" do
   stream_name_1 = Metrics::Stream::Divergence::Controls::Writer.write 1, 'stream_1'
   stream_name_2 = Metrics::Stream::Divergence::Controls::Writer.write 1, 'stream_2'
   stream_name_3 = Metrics::Stream::Divergence::Controls::Writer.write 1, 'stream_3'
