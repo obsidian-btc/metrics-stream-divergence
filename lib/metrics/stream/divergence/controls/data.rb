@@ -20,21 +20,12 @@ module Metrics
               ::JSON.generate(data)
             end
 
-            # def self.data
-            #   [
-            #     {
-            #       'streamName' => 'stream_1',
-            #       'time' => Controls::Time.earlier
-            #     },
-            #     {
-            #       'streamName' => 'stream_2',
-            #       'time' => Controls::Time.later
-            #     }
-            #   ]
-            # end
-
             def self.data
+              earlier = Controls::Time.earlier
+              later = Controls::Time.later
+
               {
+                'elapsedMilliseconds' => Clock.elapsedMilliseconds(earlier, later),
                 'startedTime' => Controls::Time.earlier,
                 'endedTime' => Controls::Time.later,
                 'points' => [

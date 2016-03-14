@@ -71,21 +71,10 @@ module Metrics
               JSON
             end
 
-            # def self.raw_data(instance)
-            #   raw_data = []
-
-            #   instance.points.each do |point|
-            #     point_data = {}
-            #     point_data[:stream_name] = point.stream_name
-            #     point_data[:time] = Clock::UTC.iso8601(point.time)
-            #     raw_data << point_data
-            #   end
-
-            #   raw_data
-            # end
-
             def self.raw_data(instance)
               raw_data = {}
+
+              raw_data[:elapsed_milliseconds] = instance.elapsed_milliseconds
 
               raw_data[:started_time] = instance.started_time
               raw_data[:ended_time] = instance.ended_time
