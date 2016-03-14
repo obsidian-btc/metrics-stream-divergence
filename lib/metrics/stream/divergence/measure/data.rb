@@ -3,8 +3,11 @@ module Metrics
     module Divergence
       class Measure
         class Data
-          dependency :logger
           dependency :clock
+          dependency :logger
+
+          attr_accessor :started_time
+          attr_accessor :ended_time
 
           def self.build
             new.tap do |instance|

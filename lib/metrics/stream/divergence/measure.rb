@@ -7,6 +7,7 @@ module Metrics
         attr_reader :stream_names
 
         dependency :logger
+        dependency :clock
 
         def initialize(*stream_names)
           @stream_names = stream_names
@@ -17,6 +18,7 @@ module Metrics
           stream_names.unshift(stream_name_1)
 
           new(*stream_names).tap do |instance|
+            Clock::UTC.configure instance
             Telemetry::Logger.configure instance
           end
         end
@@ -41,10 +43,14 @@ module Metrics
 
           data = Data.build
 
+          data.started_time = clock.iso8601
+
           stream_names.each do |stream_name|
             time = get_tail_time(stream_name)
             data.add(stream_name, time) unless time.nil?
           end
+
+          data.ended_time = clock.iso8601
 
           logger.debug "Stream divergence calculated (Stream Names: #{LogText.stream_names(stream_names)})"
           logger.data data.inspect
