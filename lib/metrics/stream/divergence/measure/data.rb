@@ -76,9 +76,6 @@ module Metrics
 
               raw_data[:elapsed_milliseconds] = instance.elapsed_milliseconds
 
-              raw_data[:started_time] = instance.started_time
-              raw_data[:ended_time] = instance.ended_time
-
               streams = []
 
               instance.streams.each do |point|
@@ -89,6 +86,9 @@ module Metrics
               end
 
               raw_data[:streams] = streams
+
+              raw_data[:started_time] = instance.started_time
+              raw_data[:ended_time] = instance.ended_time
 
               raw_data
             end

@@ -26,8 +26,6 @@ module Metrics
 
               {
                 'elapsedMilliseconds' => Clock.elapsed_milliseconds(earlier, later),
-                'startedTime' => Controls::Time.earlier,
-                'endedTime' => Controls::Time.later,
                 'streams' => [
                   {
                     'streamName' => 'stream_1',
@@ -36,8 +34,10 @@ module Metrics
                   {
                     'streamName' => 'stream_2',
                     'time' => Controls::Time.later
-                  }
-                ]
+                  },
+                ],
+                'startedTime' => Controls::Time.earlier,
+                'endedTime' => Controls::Time.later
               }
             end
           end
