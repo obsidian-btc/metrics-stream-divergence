@@ -3,11 +3,14 @@ module Metrics
     module Divergence
       module Controls
         module Data
-          def self.example
+          def self.example(earlier: nil, later: nil)
+            earlier ||= Controls::Time.earlier
+            later ||= Controls::Time.later
+
             data = Measure::Data.build
 
-            data.started_time = Controls::Time.earlier
-            data.ended_time = Controls::Time.later
+            data.started_time = earlier
+            data.ended_time = later
 
             data.add 'stream_1', Controls::Time.earlier
             data.add 'stream_2', Controls::Time.later
