@@ -5,7 +5,7 @@ module Metrics
         module Time
           def self.earlier(time=nil)
             time ||= Reference.example
-            Clock.iso8601(time)
+            Clock::UTC.iso8601(time)
           end
 
           def self.later(time=nil, divergence_milliseconds: nil)
@@ -14,7 +14,7 @@ module Metrics
 
             time += divergence_milliseconds
 
-            Clock.iso8601(time)
+            Clock::UTC.iso8601(time)
           end
 
           module Reference
