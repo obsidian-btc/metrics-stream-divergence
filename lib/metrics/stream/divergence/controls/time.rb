@@ -10,11 +10,15 @@ module Metrics
 
           def self.later(time=nil, divergence_milliseconds: nil)
             time ||= Reference.example
-            divergence_milliseconds ||= (1.0 / 1000)
+            divergence_milliseconds ||= unit
 
             time += divergence_milliseconds
 
             Clock::UTC.iso8601(time)
+          end
+
+          def self.unit
+            (1.0 / 1000)
           end
 
           module Reference
