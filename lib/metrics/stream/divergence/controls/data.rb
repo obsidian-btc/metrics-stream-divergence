@@ -31,11 +31,11 @@ module Metrics
                 'elapsedMilliseconds' => Clock.elapsed_milliseconds(earlier, later),
                 'streams' => [
                   {
-                    'streamName' => 'stream_1',
+                    'name' => 'stream_1',
                     'time' => Controls::Time.earlier
                   },
                   {
-                    'streamName' => 'stream_2',
+                    'name' => 'stream_2',
                     'time' => Controls::Time.later
                   },
                 ],
