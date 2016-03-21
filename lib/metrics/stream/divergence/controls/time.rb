@@ -4,12 +4,12 @@ module Metrics
       module Controls
         module Time
           def self.earlier(time=nil)
-            time ||= Reference.example
+            time ||= reference
             Clock::UTC.iso8601(time)
           end
 
           def self.later(time=nil, divergence_milliseconds: nil)
-            time ||= Reference.example
+            time ||= reference
             divergence_milliseconds ||= unit
 
             time += divergence_milliseconds
@@ -17,17 +17,45 @@ module Metrics
             Clock::UTC.iso8601(time)
           end
 
-          def self.unit
-            (1.0 / 1000)
+          def self.reference
+            ::Controls::Time::Raw.example
           end
 
-          module Reference
-            def self.text
-              ::Controls::Time::ISO8601.example
+          def self.unit(multiple=nil)
+            multiple ||= 1
+            (multiple / 1000.0)
+          end
+
+          module Measurement
+            def self.example(time=nil)
+              time ||= Time.reference
             end
 
-            def self.example
-              ::Controls::Time::Raw.example
+            def self.iso8601(time=nil)
+              time ||= example(time)
+              Clock::UTC.iso8601(time)              
+            end
+
+            module Started
+              def self.example(time=nil)
+                time = Measurement.example(time) + Time.unit
+              end
+
+              def self.iso8601(time=nil)
+                time ||= example(time)
+                Clock::UTC.iso8601(time)              
+              end
+            end
+
+            module Ended
+              def self.example(time=nil)
+                time = Measurement.example(time) + Time.unit(2)
+              end
+
+              def self.iso8601(time=nil)
+                time ||= example(time)
+                Clock::UTC.iso8601(time)              
+              end
             end
           end
         end

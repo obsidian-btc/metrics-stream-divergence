@@ -9,11 +9,11 @@ module Metrics
 
             data = Measure::Data.build
 
-            data.started_time = earlier
-            data.ended_time = later
+            data.started_time = Time::Measurement::Started.iso8601
+            data.ended_time = Time::Measurement::Ended.iso8601
 
-            data.add 'stream_1', Controls::Time.earlier
-            data.add 'stream_2', Controls::Time.later
+            data.add 'stream_1', earlier
+            data.add 'stream_2', later
 
             data
           end
@@ -39,8 +39,8 @@ module Metrics
                     'time' => Controls::Time.later
                   },
                 ],
-                'startedTime' => Controls::Time.earlier,
-                'endedTime' => Controls::Time.later
+                'startedTime' => Time::Measurement::Started.iso8601,
+                'endedTime' => Time::Measurement::Ended.iso8601
               }
             end
           end
