@@ -79,6 +79,20 @@ module Metrics
         def build_reader(stream_name)
           EventStore::Client::HTTP::Reader.build stream_name, slice_size: 1, direction: :backward
         end
+
+        module Substitute
+          def self.build
+            Measure.new
+          end
+
+          class Measure
+            attr_accessor :data
+
+            def call
+              data
+            end
+          end
+        end
       end
     end
   end
