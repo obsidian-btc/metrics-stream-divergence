@@ -23,11 +23,11 @@ module Metrics
 
           module Reference
             def self.text
-              "Jan 1 1:00:00 Z 2000"
+              ::Controls::Time::ISO8601.example
             end
 
             def self.example
-              ::Time.parse(text)
+              ::Controls::Time::Raw.example
             end
           end
         end
