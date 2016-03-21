@@ -80,7 +80,7 @@ module Metrics
 
               instance.streams.each do |point|
                 point_data = {}
-                point_data[:stream_name] = point.stream_name
+                point_data[:name] = point.stream_name
                 point_data[:time] = Clock::UTC.iso8601(point.time)
                 streams << point_data
               end
