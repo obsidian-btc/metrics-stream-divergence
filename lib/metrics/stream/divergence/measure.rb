@@ -9,15 +9,14 @@ module Metrics
         dependency :logger
         dependency :clock
 
-        def initialize(*stream_names)
+        def initialize(stream_names)
           @stream_names = stream_names
         end
 
         def self.build(stream_name_1, stream_name_2, *stream_names)
-          stream_names.unshift(stream_name_2)
-          stream_names.unshift(stream_name_1)
-
-          new(*stream_names).tap do |instance|
+          stream_names = [stream_name_1, stream_name_2, *stream_names]
+          
+          new(stream_names).tap do |instance|
             Clock::UTC.configure instance
             Telemetry::Logger.configure instance
           end
