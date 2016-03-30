@@ -6,8 +6,8 @@ module Metrics
 
         attr_reader :stream_names
 
-        dependency :logger
-        dependency :clock
+        dependency :clock, Clock::UTC
+        dependency :logger, Telemetry::Logger
 
         def initialize(stream_names)
           @stream_names = stream_names
@@ -15,10 +15,23 @@ module Metrics
 
         def self.build(stream_name_1, stream_name_2, *stream_names)
           stream_names = [stream_name_1, stream_name_2, *stream_names]
-          
+
           new(stream_names).tap do |instance|
             Clock::UTC.configure instance
             Telemetry::Logger.configure instance
+          end
+        end
+
+        def self.configure(receiver, stream_name_1, stream_name_2, *stream_names_and_attr_name)
+          if stream_names_and_attr_name.last.is_a? Symbol
+            attr_name = stream_names_and_attr_name.pop
+          end
+          stream_names = stream_names_and_attr_name
+
+          attr_name ||= :measure
+
+          build(stream_name_1, stream_name_2, *stream_names).tap do |instance|
+            receiver.send "#{attr_name}=", instance
           end
         end
 
