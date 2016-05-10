@@ -76,6 +76,7 @@ module Metrics
           events = []
           reader.each do |event|
             events << event
+            break
           end
 
           event = events[0]
