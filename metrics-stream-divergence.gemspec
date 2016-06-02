@@ -1,7 +1,7 @@
 # -*- encoding: utf-8 -*-
 Gem::Specification.new do |s|
   s.name = 'metrics-stream-divergence'
-  s.version = '0.2.3.0'
+  s.version = '0.2.3.1'
   s.summary = 'Measurement of divergence in time of the heads of streams'
   s.description = ' '
 
