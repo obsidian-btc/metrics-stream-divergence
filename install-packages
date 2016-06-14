@@ -1,0 +1,39 @@
+#!/usr/bin/env bash
+
+set -eu
+
+installed_packages_dir="installed-packages"
+
+echo
+echo 'Installing local gems'
+echo '= = ='
+
+if [ "${CLEAN:-}" = "on" ] || [ $POSTURE = "operational" ]; then
+  echo
+  echo 'Cleaning old installation artifacts'
+  echo '- - -'
+  rm -rf Gemfile.lock $installed_packages_dir
+fi
+
+echo
+echo 'Installing bundler'
+echo '- - -'
+
+gem install --norc --no-document --bindir=$installed_packages_dir/bin -i $installed_packages_dir/rubygems bundler
+
+echo
+echo 'Installing gems'
+echo '- - -'
+
+bundle_command="BUNDLE_IGNORE_CONFIG=on GEM_PATH=$installed_packages_dir/rubygems
+  $installed_packages_dir/bin/bundle
+  --path=$installed_packages_dir
+  --binstubs=$installed_packages_dir/bin
+  --clean --standalone"
+
+if [ $POSTURE = 'operational' ]; then
+  bundle_command="$bundle_command --without=development"
+fi
+
+echo $bundle_command
+eval $bundle_command
