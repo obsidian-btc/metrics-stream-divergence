@@ -4,8 +4,10 @@ set -eu
 
 installed_packages_dir="installed-packages"
 
+POSTURE=${POSTURE:-operational}
+
 echo
-echo 'Installing local gems'
+echo "Installing local gems (POSTURE is $POSTURE)"
 echo '= = ='
 
 if [ "${CLEAN:-}" = "on" ] || [ $POSTURE = "operational" ]; then
